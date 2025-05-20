@@ -10,23 +10,33 @@ import org.example.studytestcode.unit.order.Order;
 @Getter
 public class CafeKiosk {
 
-    private final List<Beverage> beverageList = new ArrayList<>();
+    private final List<Beverage> beverages = new ArrayList<>();
 
     public void add(Beverage beverage) {
-        beverageList.add(beverage);
+        beverages.add(beverage);
+    }
+
+    public void add(Beverage beverage, int quantity) {
+        if(quantity <= 0) {
+            throw new IllegalArgumentException("음료는 1잔 이상 주문하실 수 있습니다.");
+        }
+
+        for(int i = 0; i < quantity; i++) {
+            beverages.add(beverage);
+        }
     }
 
     public void remove(Beverage beverage) {
-        beverageList.remove(beverage);
+        beverages.remove(beverage);
     }
 
     public void clear() {
-        beverageList.clear();
+        beverages.clear();
     }
 
     public int calculateTotalPrice() {
         int totalPrice = 0;
-        for (Beverage beverage : beverageList) {
+        for (Beverage beverage : beverages) {
             totalPrice += beverage.getPrice();
         }
 
@@ -34,6 +44,6 @@ public class CafeKiosk {
     }
 
     public Order createOrder() {
-        return new Order(LocalDateTime.now(), beverageList);
+        return new Order(LocalDateTime.now(), beverages);
     }
 }
